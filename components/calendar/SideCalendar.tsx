@@ -11,8 +11,10 @@ export const SideCalendar = () => {
   const [date, setDate] = useState<Date | undefined>(new Date());
 
   const handleDayClick: SelectSingleEventHandler = (selectedDate) => {
-    dispatch(selectDay(date?.toString() ?? ""));
-    setDate(selectedDate);
+    if (selectedDate) {
+      setDate(selectedDate);
+      dispatch(selectDay(selectedDate.toString()));
+    }
   };
 
   return (
