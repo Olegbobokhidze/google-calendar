@@ -6,9 +6,10 @@ import { currentCalendar } from "@/redux/calendar/calendarSlice";
 
 import { Header } from "./Header";
 import { SideCalendar } from "./SideCalendar";
+import { SideCalendarTitle } from "./SideCalendarTitle";
 
 export const CalendarWrapper = () => {
-  const { year, month } = useAppSelector(currentCalendar);
+  const { year, month, days } = useAppSelector(currentCalendar);
   const [isSideCalendar, setIsSideCalendar] = useState<boolean>(true);
 
   return (
@@ -25,7 +26,8 @@ export const CalendarWrapper = () => {
             isSideCalendar ? "block" : "hidden"
           }`}
         >
-          <SideCalendar />
+          <SideCalendarTitle year={year} month={month} />
+          <SideCalendar days={days} />
         </div>
       </main>
     </div>
