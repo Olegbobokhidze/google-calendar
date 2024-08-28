@@ -29,12 +29,6 @@ export const CalendarWrapper = () => {
           isOpenModal={isOpenModal}
           setIsOpenModal={setIsOpenModal}
         />
-        <AddScheduleModal
-          defaultDate={new Date().toString()}
-          timeIndex={0}
-          isOpen={isOpenModal}
-          setIsOpen={setIsOpenModal}
-        />
         <div
           className={`mt-[65px] flex flex-col p-5 ${
             isSideCalendar ? "block" : "hidden"
@@ -43,6 +37,12 @@ export const CalendarWrapper = () => {
           <SideCalendarTitle year={year} month={month} />
           <SideCalendar days={days} />
         </div>
+        <AddScheduleModal
+          defaultDate={new Date().toString()}
+          timeIndex={0}
+          isOpen={isOpenModal}
+          setIsOpen={setIsOpenModal}
+        />
       </main>
     </div>
   );

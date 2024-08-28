@@ -1,16 +1,17 @@
 "use client";
 
-import React, { Dispatch, SetStateAction, useEffect, useState } from "react";
-import { useDispatch } from "react-redux";
+import { Dispatch, SetStateAction, useEffect, useState } from "react";
+
 import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
-} from "@/components/ui/dropdown-menu"; // Adjust import based on actual ShadCN UI components
-import { Calendar } from "@/components/ui/calendar"; // Adjust import based on actual ShadCN UI components
+} from "@/components/ui/dropdown-menu";
+import { Calendar } from "@/components/ui/calendar";
 import { createSelectTimes } from "@/helpers";
 import { IRangeColor, IScheduleDetail } from "@/types";
 import { addSchedule } from "@/redux/schedule/scheduleSlice";
+import { useAppDispatch } from "@/redux/hooks";
 
 interface Props {
   defaultDate: string;
@@ -25,16 +26,21 @@ export const AddScheduleModal: React.FC<Props> = ({
   isOpen,
   setIsOpen,
 }) => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
+
   const [isSelectStartTime, setIsSelectStartTime] = useState<boolean>(false);
   const [isSelectEndTime, setIsSelectEndTime] = useState<boolean>(false);
 
   const [title, setTitle] = useState<string>("");
-  const [date, setDate] = useState<Date | undefined>();
+
+  const [date, setDate] = useState<Date | undefined>(new Date(defaultDate));
+
   const [color, setColor] = useState<IRangeColor>("red");
+
   const [startHour, setStartHour] = useState<number>(12);
-  const [startMinute, setStartMinute] = useState<number>(12);
   const [endHour, setEndHour] = useState<number>(0);
+
+  const [startMinute, setStartMinute] = useState<number>(12);
   const [endMinute, setEndMinute] = useState<number>(0);
 
   const [startSelectTimeIndex, setStartSelectTimeIndex] = useState<number>(0);
@@ -44,6 +50,7 @@ export const AddScheduleModal: React.FC<Props> = ({
   const [displayEndTime, setDisplayEndTime] = useState<string>("");
 
   const selectTimes = createSelectTimes();
+
   const colors: IRangeColor[] = [
     "red",
     "orange",
@@ -86,8 +93,9 @@ export const AddScheduleModal: React.FC<Props> = ({
     e.preventDefault();
     setIsOpen(false);
     setTitle("");
-    const schedule: { date: Date | undefined; data: IScheduleDetail } = {
-      date,
+
+    const schedule: { date: string; data: IScheduleDetail } = {
+      date: date?.toISOString().split("T")[0] || defaultDate,
       data: {
         start: { hour: startHour, minute: startMinute },
         end: { hour: endHour, minute: endMinute },
@@ -95,11 +103,13 @@ export const AddScheduleModal: React.FC<Props> = ({
         title,
       },
     };
+
     dispatch(addSchedule(schedule));
   };
 
   useEffect(() => {
-    setDate(defaultDate);
+    const parsedDate = new Date(defaultDate);
+    setDate(parsedDate);
     const defaultTime = selectTimes[timeIndex];
     startTimeChange(
       defaultTime.hour,
@@ -108,7 +118,6 @@ export const AddScheduleModal: React.FC<Props> = ({
       timeIndex,
     );
   }, [defaultDate, timeIndex]);
-
   return (
     <div
       className={`${
@@ -138,21 +147,25 @@ export const AddScheduleModal: React.FC<Props> = ({
           onChange={(e) => setTitle(e.target.value)}
           required
         />
-        <div className="relative mt-3 flex items-center">
+        <div className="relative mt-3 flex flex-col-reverse items-center text-black">
           <Calendar
             selected={date}
-            onSelect={setDate}
-            className="w-[110px] outline-none"
+            onSelect={(newDate) => setDate(newDate || new Date())}
+            mode="single"
+            className="outline-none"
           />
-          {isSelectStartTime && (
-            <DropdownMenu>
-              <DropdownMenuTrigger className="absolute left-[120px] top-[30px] cursor-pointer">
+          <div className="flex gap-2">
+            <DropdownMenu
+              open={isSelectStartTime}
+              onOpenChange={setIsSelectStartTime}
+            >
+              <DropdownMenuTrigger className="cursor-pointer text-black">
                 {displayStartTime || "Select Start Time"}
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="z-20 flex h-[180px] w-[180px] flex-col overflow-y-auto rounded-md bg-white shadow">
+              <DropdownMenuContent className="flex h-[180px] w-[180px] flex-col overflow-y-auto rounded-md text-black shadow">
                 {selectTimes.map((time, index) => (
                   <div
-                    key={time.text}
+                    key={index}
                     onClick={() =>
                       startTimeChange(time.hour, time.minute, time.text, index)
                     }
@@ -163,28 +176,36 @@ export const AddScheduleModal: React.FC<Props> = ({
                 ))}
               </DropdownMenuContent>
             </DropdownMenu>
-          )}
-          -
-          {isSelectEndTime && (
-            <DropdownMenu>
-              <DropdownMenuTrigger className="absolute left-[160px] top-[30px] cursor-pointer">
+            -
+            <DropdownMenu
+              open={isSelectEndTime}
+              onOpenChange={setIsSelectEndTime}
+            >
+              <DropdownMenuTrigger className="cursor-pointer text-black hover:text-red-500">
                 {displayEndTime || "Select End Time"}
               </DropdownMenuTrigger>
-              <DropdownMenuContent className="z-20 flex h-[180px] w-[180px] flex-col overflow-y-auto rounded-md bg-white shadow">
-                {selectTimes.slice(startSelectTimeIndex).map((time, index) => (
-                  <div
-                    key={time.text}
-                    onClick={() =>
-                      endTimeChange(time.hour, time.minute, time.text, index)
-                    }
-                    className="cursor-pointer p-2 text-sm hover:bg-gray-100"
-                  >
-                    {time.text}
-                  </div>
-                ))}
+              <DropdownMenuContent className="flex h-[180px] w-[180px] flex-col overflow-y-auto rounded-md text-black shadow">
+                {selectTimes
+                  .slice(startSelectTimeIndex + 1)
+                  .map((time, index) => (
+                    <div
+                      key={index}
+                      onClick={() =>
+                        endTimeChange(
+                          time.hour,
+                          time.minute,
+                          time.text,
+                          index + startSelectTimeIndex + 1,
+                        )
+                      }
+                      className="cursor-pointer p-2 text-sm hover:bg-gray-100"
+                    >
+                      {time.text}
+                    </div>
+                  ))}
               </DropdownMenuContent>
             </DropdownMenu>
-          )}
+          </div>
         </div>
         <div className="z-10 mt-5 flex">
           {colors.map((clr) => (
