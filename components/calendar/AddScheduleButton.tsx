@@ -1,11 +1,9 @@
 "use client";
 
-import { Dispatch, SetStateAction } from "react";
-
 type Props = {
   isSideCalendar: boolean;
   isOpenModal: boolean;
-  setIsOpenModal: Dispatch<SetStateAction<boolean>>;
+  setIsOpenModal: React.Dispatch<React.SetStateAction<boolean>>;
 };
 
 export const AddScheduleButton: React.FC<Props> = ({

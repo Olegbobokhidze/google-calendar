@@ -1,15 +1,18 @@
 "use client";
 
 import { useState } from "react";
-import { SelectSingleEventHandler } from "react-day-picker";
+
+import { useAppDispatch } from "@/redux/hooks";
 import {
   lastMonth,
   nextMonth,
   selectDay,
 } from "@/redux/calendar/calendarSlice";
-import { Calendar } from "@/components/ui/calendar";
-import { useAppDispatch } from "@/redux/hooks";
+
 import { IDays } from "@/types";
+import { SelectSingleEventHandler } from "react-day-picker";
+
+import { Calendar } from "@/components/ui/calendar";
 
 type Props = {
   days: IDays[];

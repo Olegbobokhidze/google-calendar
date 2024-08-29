@@ -1,23 +1,26 @@
 "use client";
 
-import { Dispatch, SetStateAction, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
+import { addSchedule } from "@/redux/schedule/scheduleSlice";
+import { useAppDispatch } from "@/redux/hooks";
+
+import { createSelectTimes } from "@/helpers";
+
+import { IRangeColor, IScheduleDetail } from "@/types";
+
+import { Calendar } from "@/components/ui/calendar";
 import {
   DropdownMenu,
   DropdownMenuTrigger,
   DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
-import { Calendar } from "@/components/ui/calendar";
-import { createSelectTimes } from "@/helpers";
-import { IRangeColor, IScheduleDetail } from "@/types";
-import { addSchedule } from "@/redux/schedule/scheduleSlice";
-import { useAppDispatch } from "@/redux/hooks";
 
 interface Props {
   defaultDate: string;
   timeIndex: number;
   isOpen: boolean;
-  setIsOpen: Dispatch<SetStateAction<boolean>>;
+  setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
 }
 
 export const AddScheduleModal: React.FC<Props> = ({

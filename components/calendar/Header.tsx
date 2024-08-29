@@ -1,23 +1,25 @@
 "use client";
 
-import { Dispatch, SetStateAction } from "react";
-
-import { lastWeek, nextWeek, selectDay } from "@/redux/calendar/calendarSlice";
-import { IconLeftArrow, IconMenu, IconRightArrow } from "@/components/icons";
 import { useAppDispatch } from "@/redux/hooks";
+import { lastWeek, nextWeek, selectDay } from "@/redux/calendar/calendarSlice";
 
-export const Header = ({
+import { IconLeftArrow, IconMenu, IconRightArrow } from "@/components/icons";
+
+type Props = {
+  year: number;
+  month: number;
+  isSideCalendar: boolean;
+  setIsSideCalendar: React.Dispatch<React.SetStateAction<boolean>>;
+};
+
+export const Header: React.FC<Props> = ({
   year,
   month,
   isSideCalendar,
   setIsSideCalendar,
-}: {
-  year: number;
-  month: number;
-  isSideCalendar: boolean;
-  setIsSideCalendar: Dispatch<SetStateAction<boolean>>;
 }) => {
   const dispatch = useAppDispatch();
+
   return (
     <header className="flex h-14 w-full items-center justify-between border-b border-gray-300 px-2 text-black">
       <div className="flex items-center">
