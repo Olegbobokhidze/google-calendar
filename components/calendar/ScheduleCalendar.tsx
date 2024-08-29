@@ -101,14 +101,20 @@ export const ScheduleCalendar: React.FC<Props> = ({
           </div>
           <div className="flex flex-1">
             <div className="sticky left-0 top-0 z-10 w-20 min-w-[70px] bg-white">
-              {hours24.map((hour, index) => (
-                <div
-                  className="h-[60px] pr-2 text-right text-[12px] font-light"
-                  key={index}
-                >
-                  {hour.text} საათი
-                </div>
-              ))}
+              {hours24.map((_, index) => {
+                const hour = index; // Start from 0:00 (midnight)
+                const displayHour = hour === 0 ? 12 : hour; // Handle 0:00 as 12:00
+                const period = hour < 12 ? "AM" : "PM"; // AM/PM logic
+
+                return (
+                  <div
+                    className="h-[60px] pr-2 text-right text-[12px] font-light"
+                    key={index}
+                  >
+                    {displayHour % 24}:00 {period} საათი
+                  </div>
+                );
+              })}
             </div>
             <div className="flex flex-1 pt-2">
               {days.map((day, index) => (
