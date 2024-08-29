@@ -1,4 +1,9 @@
 export { addWeek } from "./addWeek";
 export { addMonth } from "./addMonth";
 export { getCalendar } from "./getCalendar";
-export { createSelectTimes } from "./createSelectTimes"
+export { createSelectTimes } from "./createSelectTimes";
+export { hours24 } from "./hoursADay";
+export { dayOfWeek } from "./dayOfWeek";
+export { formatDay } from "./formatDay";
+export { getThisWeek } from "./getThisWeek";
+export { checkIsThisWeek } from "./checkIsThisWeek";
