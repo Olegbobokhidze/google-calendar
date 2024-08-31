@@ -49,7 +49,6 @@ export const SideCalendar: React.FC<Props> = ({ days }) => {
 
   return (
     <div className="p-4">
-      <p onClick={() => console.log(days)}>d</p>
       <Calendar
         onMonthChange={handleMonthChange}
         mode="single"

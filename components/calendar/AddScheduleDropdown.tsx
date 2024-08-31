@@ -162,7 +162,7 @@ export const AddScheduleModal: React.FC<Props> = ({
               open={isSelectStartTime}
               onOpenChange={setIsSelectStartTime}
             >
-              <DropdownMenuTrigger className="cursor-pointer text-black">
+              <DropdownMenuTrigger className="cursor-pointer text-black hover:text-black/70">
                 {displayStartTime || "Select Start Time"}
               </DropdownMenuTrigger>
               <DropdownMenuContent className="flex h-[180px] w-[180px] flex-col overflow-y-auto rounded-md text-black shadow">
@@ -184,7 +184,7 @@ export const AddScheduleModal: React.FC<Props> = ({
               open={isSelectEndTime}
               onOpenChange={setIsSelectEndTime}
             >
-              <DropdownMenuTrigger className="cursor-pointer text-black hover:text-red-500">
+              <DropdownMenuTrigger className="cursor-pointer text-black hover:text-black/70">
                 {displayEndTime || "Select End Time"}
               </DropdownMenuTrigger>
               <DropdownMenuContent className="flex h-[180px] w-[180px] flex-col overflow-y-auto rounded-md text-black shadow">

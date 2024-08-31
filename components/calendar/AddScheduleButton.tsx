@@ -13,14 +13,14 @@ export const AddScheduleButton: React.FC<Props> = ({
 }) => {
   return (
     <div
-      className={`fixed left-0 top-[60px] z-50 flex h-[70px] items-center bg-white ${
+      className={`fixed left-0 top-[60px] rounded-full z-50 flex h-[70px] items-center bg-white ${
         isSideCalendar
-          ? "w-[320px] justify-start pl-5"
-          : "w-[70px] justify-center"
+          ? "w-fit justify-start ml-5"
+          : "w-fit justify-center ml-5"
       }`}
     >
       <button
-        className={`h-14 w-14 rounded-full border bg-white shadow-md hover:shadow-xl ${isSideCalendar && "hidden"}`}
+        className={`h-14 w-14 rounded-full border bg-white hover:shadow-xl ${isSideCalendar && "hidden"}`}
         onClick={() => setIsOpenModal(!isOpenModal)}
       >
         <svg

@@ -30,7 +30,7 @@ export const CalendarWrapper = () => {
         isSideCalendar={isSideCalendar}
         setIsSideCalendar={setIsSideCalendar}
       />
-      <main className="flex h-[calc(100%_-_3.5rem)] flex-1">
+      <main className="flex flex-col lg:flex-row items-start h-[calc(100%_-_3.5rem)] flex-1">
         <AddScheduleButton
           isSideCalendar={isSideCalendar}
           isOpenModal={isOpenModal}
@@ -44,7 +44,7 @@ export const CalendarWrapper = () => {
           <SideCalendarTitle year={year} month={month} />
           <SideCalendar days={days} />
         </div>
-        <div className="flex h-full flex-1 flex-col overflow-x-scroll pr-2">
+        <div className="flex h-full w-full flex-1 flex-col overflow-x-scroll pr-2">
           <ScheduleCalendar
             days={getThisWeek(days)}
             setModalDate={setModalDate}
