@@ -55,8 +55,8 @@ export const CalendarWrapper = () => {
           />
         </div>
         <AddScheduleModal
-          defaultDate={new Date().toString()}
-          timeIndex={0}
+          defaultDate={modalDate}
+          timeIndex={timeIndex}
           isOpen={isOpenModal}
           setIsOpen={setIsOpenModal}
         />

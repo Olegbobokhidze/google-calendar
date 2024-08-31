@@ -9,6 +9,15 @@ import { IDays } from "@/types";
 
 import { dayOfWeek, hours24 } from "@/helpers";
 
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+
 type Props = {
   days: IDays[];
   setModalDate: React.Dispatch<React.SetStateAction<string>>;
@@ -125,7 +134,7 @@ export const ScheduleCalendar: React.FC<Props> = ({
                   {hours24.map((hour, index) => (
                     <div
                       key={`schedule-${index}`}
-                      className="h-[60px] border border-solid border-transparent border-r-zinc-200 border-t-zinc-200"
+                      className="h-[60px] cursor-pointer border border-solid border-transparent border-r-zinc-200 border-t-zinc-200 hover:bg-blue-500"
                       onClick={() => modalHandle(day.day, index * 4)}
                     />
                   ))}
@@ -145,7 +154,7 @@ export const ScheduleCalendar: React.FC<Props> = ({
                         return (
                           <div
                             key={idx}
-                            className="scheduleBox absolute left-0 w-5/6 overflow-y-auto rounded p-[2px] text-[12px] font-light text-white"
+                            className="scheduleBox absolute left-0 w-full overflow-y-auto rounded p-[2px] text-[12px] font-light text-white"
                             style={{
                               top: top,
                               height: height,
@@ -167,19 +176,22 @@ export const ScheduleCalendar: React.FC<Props> = ({
                   )}
                 </div>
               ))}
+              {isDeleteOpen && (
+                <div
+                  className="absolute z-10 cursor-pointer hover:bg-slate-400 rounded bg-white px-6 py-2 text-[12px] shadow"
+                  style={{
+                    top: `${deleteBox.top}px`,
+                    left: `${deleteBox.left}px`,
+                  }}
+                  onClick={() => deleteHandle()}
+                >
+                  წაშლა
+                </div>
+              )}
             </div>
           </div>
         </div>
       </div>
-      {isDeleteOpen && (
-        <div
-          className="fixed z-10 cursor-pointer rounded bg-white px-6 py-2 text-[12px] shadow"
-          style={{ top: `${deleteBox.top}px`, left: `${deleteBox.left}px` }}
-          onClick={() => deleteHandle()}
-        >
-          წაშლა
-        </div>
-      )}
     </>
   );
 };
