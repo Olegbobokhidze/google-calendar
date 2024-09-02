@@ -55,6 +55,8 @@ export const CalendarWrapper = () => {
           />
         </div>
         <AddScheduleModal
+          month={month}
+          year={year}
           defaultDate={modalDate}
           timeIndex={timeIndex}
           isOpen={isOpenModal}
