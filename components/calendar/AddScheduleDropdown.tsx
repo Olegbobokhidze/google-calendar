@@ -2,10 +2,11 @@
 
 import { useEffect, useState } from "react";
 
+import { lastMonth, nextMonth } from "@/redux/calendar/calendarSlice";
 import { addSchedule } from "@/redux/schedule/scheduleSlice";
 import { useAppDispatch } from "@/redux/hooks";
 
-import { createSelectTimes } from "@/helpers";
+import { convertMonthStringToDate, createSelectTimes } from "@/helpers";
 
 import { IRangeColor, IScheduleDetail } from "@/types";
 
@@ -16,20 +17,28 @@ import {
   DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
 
-interface Props {
+type Props = {
   defaultDate: string;
   timeIndex: number;
   isOpen: boolean;
+  month: string;
   setIsOpen: React.Dispatch<React.SetStateAction<boolean>>;
-}
+  year: number;
+};
 
 export const AddScheduleModal: React.FC<Props> = ({
   defaultDate,
   timeIndex,
+  month,
+  year,
   isOpen,
   setIsOpen,
 }) => {
   const dispatch = useAppDispatch();
+
+  const [currentMonth, setCurrentMonth] = useState<Date | undefined>(
+    new Date(),
+  );
 
   const [isSelectStartTime, setIsSelectStartTime] = useState<boolean>(false);
   const [isSelectEndTime, setIsSelectEndTime] = useState<boolean>(false);
@@ -110,6 +119,29 @@ export const AddScheduleModal: React.FC<Props> = ({
     dispatch(addSchedule(schedule));
   };
 
+  const handleMonthChange = (month: Date) => {
+    if (currentMonth) {
+      const currentYear = currentMonth.getFullYear();
+      const newYear = month.getFullYear();
+      const currentMonthIndex = currentMonth.getMonth();
+      const newMonthIndex = month.getMonth();
+
+      if (
+        newYear > currentYear ||
+        (newYear === currentYear && newMonthIndex > currentMonthIndex)
+      ) {
+        dispatch(nextMonth());
+      } else if (
+        newYear < currentYear ||
+        (newYear === currentYear && newMonthIndex < currentMonthIndex)
+      ) {
+        dispatch(lastMonth());
+      }
+    }
+
+    setCurrentMonth(month);
+  };
+
   useEffect(() => {
     const parsedDate = new Date(defaultDate);
     setDate(parsedDate);
@@ -121,6 +153,14 @@ export const AddScheduleModal: React.FC<Props> = ({
       timeIndex,
     );
   }, [defaultDate, timeIndex]);
+
+  useEffect(() => {
+    const newMonthDate = convertMonthStringToDate(month, year);
+    if (newMonthDate.getTime() !== currentMonth?.getTime()) {
+      setCurrentMonth(newMonthDate);
+    }
+  }, [month, year]);
+
   return (
     <div
       className={`${
@@ -153,6 +193,8 @@ export const AddScheduleModal: React.FC<Props> = ({
         <div className="relative mt-3 flex flex-col-reverse items-center text-black">
           <Calendar
             selected={date}
+            onMonthChange={handleMonthChange}
+            month={currentMonth}
             onSelect={(newDate) => setDate(newDate || new Date())}
             mode="single"
             className="outline-none"
