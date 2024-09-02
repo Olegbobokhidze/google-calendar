@@ -70,7 +70,10 @@ export const ScheduleCalendar: React.FC<Props> = ({
 
   return (
     <>
-      <div className="mb-2 flex w-full flex-col overflow-auto" id="schedule">
+      <div
+        className="mb-2 flex h-[90vh] w-full flex-col overflow-auto"
+        id="schedule"
+      >
         <div className="flex flex-1 flex-col">
           <div className="sticky top-0 z-20 flex bg-white">
             <div className="w-[70px] min-w-[70px] bg-white" />
