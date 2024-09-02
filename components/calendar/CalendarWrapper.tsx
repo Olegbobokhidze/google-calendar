@@ -44,7 +44,7 @@ export const CalendarWrapper = () => {
           <SideCalendarTitle year={year} month={month} />
           <SideCalendar month={month} year={year} />
         </div>
-        <div className="flex h-full w-full flex-1 flex-col overflow-x-scroll pr-2">
+        <div className="flex h-full w-full flex-1 flex-col pr-2">
           <ScheduleCalendar
             days={getThisWeek(days)}
             setModalDate={setModalDate}
