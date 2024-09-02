@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 import { useAppDispatch } from "@/redux/hooks";
 import {
@@ -9,16 +9,17 @@ import {
   selectDay,
 } from "@/redux/calendar/calendarSlice";
 
-import { IDays } from "@/types";
 import { SelectSingleEventHandler } from "react-day-picker";
 
 import { Calendar } from "@/components/ui/calendar";
+import { convertMonthStringToDate } from "@/helpers/convertMonthStringToDate";
 
 type Props = {
-  days: IDays[];
+  month: string;
+  year: number;
 };
 
-export const SideCalendar: React.FC<Props> = ({ days }) => {
+export const SideCalendar: React.FC<Props> = ({ month, year }) => {
   const dispatch = useAppDispatch();
   const [date, setDate] = useState<Date | undefined>();
   const [currentMonth, setCurrentMonth] = useState<Date | undefined>(
@@ -33,19 +34,34 @@ export const SideCalendar: React.FC<Props> = ({ days }) => {
   };
 
   const handleMonthChange = (month: Date) => {
-    if (currentMonth && month.getMonth() !== currentMonth.getMonth()) {
+    if (currentMonth) {
+      const currentYear = currentMonth.getFullYear();
+      const newYear = month.getFullYear();
+      const currentMonthIndex = currentMonth.getMonth();
+      const newMonthIndex = month.getMonth();
+
       if (
-        month.getMonth() > currentMonth.getMonth() ||
-        (month.getFullYear() > currentMonth.getFullYear() &&
-          month.getMonth() === 0)
+        newYear > currentYear ||
+        (newYear === currentYear && newMonthIndex > currentMonthIndex)
       ) {
         dispatch(nextMonth());
-      } else {
+      } else if (
+        newYear < currentYear ||
+        (newYear === currentYear && newMonthIndex < currentMonthIndex)
+      ) {
         dispatch(lastMonth());
       }
     }
+
     setCurrentMonth(month);
   };
+
+  useEffect(() => {
+    const newMonthDate = convertMonthStringToDate(month, year);
+    if (newMonthDate.getTime() !== currentMonth?.getTime()) {
+      setCurrentMonth(newMonthDate);
+    }
+  }, [month, year]);
 
   return (
     <div className="p-4">
@@ -54,6 +70,7 @@ export const SideCalendar: React.FC<Props> = ({ days }) => {
         mode="single"
         selected={date}
         onSelect={handleDayClick}
+        month={currentMonth}
         className="rounded-lg border"
       />
     </div>
