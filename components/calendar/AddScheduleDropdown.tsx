@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-import { lastMonth, nextMonth } from "@/redux/calendar/calendarSlice";
+import { lastMonth, nextMonth, selectDay } from "@/redux/calendar/calendarSlice";
 import { addSchedule } from "@/redux/schedule/scheduleSlice";
 import { useAppDispatch } from "@/redux/hooks";
 
@@ -16,6 +16,7 @@ import {
   DropdownMenuTrigger,
   DropdownMenuContent,
 } from "@/components/ui/dropdown-menu";
+import { SelectSingleEventHandler } from "react-day-picker";
 
 type Props = {
   defaultDate: string;
@@ -142,6 +143,13 @@ export const AddScheduleModal: React.FC<Props> = ({
     setCurrentMonth(month);
   };
 
+  const handleDayClick: SelectSingleEventHandler = (selectedDate) => {
+    if (selectedDate) {
+      setDate(selectedDate);
+      dispatch(selectDay(selectedDate.toString()));
+    }
+  };
+
   useEffect(() => {
     const parsedDate = new Date(defaultDate);
     setDate(parsedDate);
@@ -195,7 +203,7 @@ export const AddScheduleModal: React.FC<Props> = ({
             selected={date}
             onMonthChange={handleMonthChange}
             month={currentMonth}
-            onSelect={(newDate) => setDate(newDate || new Date())}
+            onSelect={handleDayClick}
             mode="single"
             className="outline-none"
           />
