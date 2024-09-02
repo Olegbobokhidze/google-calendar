@@ -11,8 +11,9 @@ import {
 
 import { SelectSingleEventHandler } from "react-day-picker";
 
+import { convertMonthStringToDate } from "@/helpers";
+
 import { Calendar } from "@/components/ui/calendar";
-import { convertMonthStringToDate } from "@/helpers/convertMonthStringToDate";
 
 type Props = {
   month: string;

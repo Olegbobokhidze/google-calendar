@@ -7,3 +7,4 @@ export { dayOfWeek } from "./dayOfWeek";
 export { formatDay } from "./formatDay";
 export { getThisWeek } from "./getThisWeek";
 export { checkIsThisWeek } from "./checkIsThisWeek";
+export { convertMonthStringToDate } from "./convertMonthStringToDate";
