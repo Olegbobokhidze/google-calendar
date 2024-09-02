@@ -120,7 +120,7 @@ export const ScheduleCalendar: React.FC<Props> = ({
               {days.map((day, index) => (
                 <div
                   className="relative flex min-w-[81px] flex-1 flex-col"
-                  key={`scheduleline-${day.day}`}
+                  key={`scheduleline-${index}`}
                 >
                   {hours24.map((hour, index) => (
                     <div
