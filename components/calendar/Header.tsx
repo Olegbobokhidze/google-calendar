@@ -7,7 +7,7 @@ import { IconLeftArrow, IconMenu, IconRightArrow } from "@/components/icons";
 
 type Props = {
   year: number;
-  month: number;
+  month: string;
   isSideCalendar: boolean;
   setIsSideCalendar: React.Dispatch<React.SetStateAction<boolean>>;
 };
@@ -56,7 +56,7 @@ export const Header: React.FC<Props> = ({
           <IconRightArrow className="size-7" />
         </div>
         <span className="ml-3 text-sm md:text-lg">
-          {year}წელი {month}თვე
+          {year} წელი {month}
         </span>
       </div>
     </header>
