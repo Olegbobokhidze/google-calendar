@@ -28,10 +28,7 @@ export const ScheduleCalendar: React.FC<Props> = ({
 }) => {
   const dispatch = useAppDispatch();
   const scheduleData = useAppSelector(schedules);
-  const [deleteBox, setDeleteBox] = useState<{ top: number; left: number }>({
-    top: 100,
-    left: 100,
-  });
+
   const [deleteSchedule, setDeleteSchedule] = useState<{
     date: string;
     index: number;
@@ -47,13 +44,9 @@ export const ScheduleCalendar: React.FC<Props> = ({
     setIsDeleteOpen(false);
   };
 
-  const scheduleHandle = (
-    cursor: { top: number; left: number },
-    scheduleData: { date: string; index: number },
-  ) => {
+  const scheduleHandle = (scheduleData: { date: string; index: number }) => {
     setIsOpenModal(false);
     setIsDeleteOpen((prev) => !prev);
-    setDeleteBox(cursor);
     setDeleteSchedule(scheduleData);
   };
 
@@ -145,7 +138,7 @@ export const ScheduleCalendar: React.FC<Props> = ({
                         return (
                           <div
                             key={idx}
-                            className="scheduleBox absolute cursor-pointer left-0 w-full overflow-y-auto rounded p-[2px] text-[12px] font-light text-white"
+                            className="scheduleBox absolute left-0 w-full cursor-pointer overflow-y-auto rounded p-[2px] text-[12px] font-light text-white"
                             style={{
                               top: top,
                               height: height,
@@ -153,16 +146,13 @@ export const ScheduleCalendar: React.FC<Props> = ({
                             }}
                             data-schedule={{ date: day.day, index: idx }}
                             onClick={(e) => {
-                              scheduleHandle(
-                                { top: e.clientY, left: e.clientX },
-                                { date: day.day, index: idx },
-                              );
+                              scheduleHandle({ date: day.day, index: idx });
                             }}
                           >
                             {s.title}
                             {isDeleteOpen && (
                               <div
-                                className="absolute z-20 bottom-0 right-0 cursor-pointer rounded bg-slate-500 px-6 py-2 text-[12px] shadow hover:bg-slate-400"
+                                className="absolute bottom-0 right-0 z-20 cursor-pointer rounded bg-slate-500 px-6 py-2 text-[12px] shadow hover:bg-slate-400"
                                 onClick={() => deleteHandle()}
                               >
                                 წაშლა
