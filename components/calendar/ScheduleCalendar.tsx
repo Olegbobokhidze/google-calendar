@@ -9,6 +9,8 @@ import { IDays } from "@/types";
 
 import { dayOfWeek, hours24 } from "@/helpers";
 
+import { CalendarClock } from "lucide-react";
+
 type Props = {
   days: IDays[];
   setModalDate: React.Dispatch<React.SetStateAction<string>>;
@@ -76,7 +78,9 @@ export const ScheduleCalendar: React.FC<Props> = ({
       >
         <div className="flex flex-1 flex-col">
           <div className="sticky top-0 z-20 flex bg-white">
-            <div className="w-[70px] min-w-[70px] bg-white" />
+            <div className="w-[85px] flex items-center justify-center  min-w-[85px] bg-white" >
+              <CalendarClock />
+            </div>
             {days.map((day, index) => (
               <div
                 className="z-20 flex min-w-[81px] flex-1 flex-col bg-white pt-4"
