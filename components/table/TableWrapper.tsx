@@ -108,6 +108,10 @@ const ResizableCell = ({ header, content, onResize }: any) => {
     document.addEventListener("mouseup", handleMouseUp);
   };
 
+
+
+
+  
   return (
     <td
       className="border-y border-r border-gray-400 p-3 pr-8"
